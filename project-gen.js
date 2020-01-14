@@ -1,4 +1,5 @@
 const fs = require("fs");
+const child_process = require("child_process");
 
 const projectGen = projectName => {
   fs.mkdir(`${projectName}`, err => {
@@ -33,6 +34,14 @@ const projectGen = projectName => {
           });
         }
       });
+
+      child_process.exec("npm init", (err, stdout, stderr) => {
+        if (err) {
+          console.error(`exec error: ${err}`);
+        } else {
+          console.log(`npm init was executed in ${projectName}`);
+        }
+      });
     }
   });
 };
@@ -43,4 +52,11 @@ projectGen("test");
 //   if (err) {
 //     return err;
 //   }
+// });
+
+// fs.writeFile(`${projectName}/package.json`, "", err => {
+//   if (err) {
+//     throw err;
+//     // node ../path/to/my-awesome/tool/script.js --arguments s
+//   } else console.log("package.json file created inside directory");
 // });
